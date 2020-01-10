@@ -1,5 +1,6 @@
 package com.example.nettyclient;
 
+import com.example.imclient.ImClient;
 import com.example.simpleclient.NettyClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,8 +12,8 @@ public class NettyClientApplication {
         SpringApplication.run(NettyClientApplication.class, args);
 
         //启动netty客户端
-        NettyClient nettyClient = new NettyClient();
-        nettyClient.start();
+        ImClient client = new ImClient();
+        client.start();
     }
 
 }
