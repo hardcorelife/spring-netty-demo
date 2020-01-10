@@ -5,6 +5,8 @@ import com.example.common.protocol.Packet;
 import com.example.common.protocol.PacketCodeC;
 import com.example.common.protocol.request.LoginRequestPacket;
 import com.example.common.protocol.response.LoginResponsePacket;
+import com.example.common.protocol.response.MessageResponsePacket;
+import com.example.common.util.LoginUtil;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -31,6 +33,8 @@ public class ImClientHandler extends ChannelInboundHandlerAdapter {
 
         // 编码
         ByteBuf buffer = PacketCodeC.INSTANCE.encode(ctx.alloc(), loginRequestPacket);
+
+        // 往通道中发送数据
         ctx.channel().writeAndFlush(buffer);
 
 //        System.out.println(new Date() + ": 客户端写出数据");
@@ -43,7 +47,6 @@ public class ImClientHandler extends ChannelInboundHandlerAdapter {
     }
 
 
-
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf byteBuf = (ByteBuf) msg;
@@ -54,10 +57,14 @@ public class ImClientHandler extends ChannelInboundHandlerAdapter {
             LoginResponsePacket loginResponsePacket = (LoginResponsePacket) packet;
 
             if (loginResponsePacket.isSuccess()) {
+                LoginUtil.markAsLogin(ctx.channel());
                 System.out.println(new Date() + ": 客户端登录成功");
             } else {
                 System.out.println(new Date() + ": 客户端登录失败，原因：" + loginResponsePacket.getReason());
             }
+        } else if (packet instanceof MessageResponsePacket) {
+            MessageResponsePacket messageResponsePacket = (MessageResponsePacket) packet;
+            System.out.println(new Date() + ": 收到服务端的消息: " + messageResponsePacket.getMessage());
         }
 //        System.out.println(new Date() + ": 客户端读到数据 -> " + msg.toString());
     }
