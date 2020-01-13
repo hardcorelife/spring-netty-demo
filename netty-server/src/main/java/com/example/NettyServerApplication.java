@@ -1,4 +1,4 @@
-package com.example.nettyserver;
+package com.example;
 
 import com.example.imserver.ImServer;
 

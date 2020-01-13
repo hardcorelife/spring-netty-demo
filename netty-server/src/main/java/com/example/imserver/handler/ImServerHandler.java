@@ -1,4 +1,4 @@
-package com.example.imserver;
+package com.example.imserver.handler;
 
 import com.example.common.protocol.Packet;
 import com.example.common.protocol.PacketCodeC;
@@ -9,7 +9,6 @@ import com.example.common.protocol.response.MessageResponsePacket;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Date;
@@ -49,8 +48,8 @@ public class ImServerHandler extends ChannelInboundHandlerAdapter {
                 System.out.println(new Date() + ": 登录失败!");
             }
             // 登录响应
-            ByteBuf responseByteBuf = PacketCodeC.INSTANCE.encode(ctx.alloc(), loginResponsePacket);
-            ctx.channel().writeAndFlush(responseByteBuf);
+//            ByteBuf responseByteBuf = PacketCodeC.INSTANCE.encode(ctx.alloc(), loginResponsePacket);
+//            ctx.channel().writeAndFlush(responseByteBuf);
         } else if (packet instanceof MessageRequestPacket) {
             // 客户端发来消息
             MessageRequestPacket messageRequestPacket = ((MessageRequestPacket) packet);
@@ -58,8 +57,8 @@ public class ImServerHandler extends ChannelInboundHandlerAdapter {
             MessageResponsePacket messageResponsePacket = new MessageResponsePacket();
             System.out.println(new Date() + ": 收到客户端消息: " + messageRequestPacket.getMessage());
             messageResponsePacket.setMessage("服务端回复【" + messageRequestPacket.getMessage() + "】");
-            ByteBuf responseByteBuf = PacketCodeC.INSTANCE.encode(ctx.alloc(), messageResponsePacket);
-            ctx.channel().writeAndFlush(responseByteBuf);
+//            ByteBuf responseByteBuf = PacketCodeC.INSTANCE.encode(ctx.alloc(), messageResponsePacket);
+//            ctx.channel().writeAndFlush(responseByteBuf);
         }
 //        log.info(new Date() + ": 服务端读到数据 -> " + msg.toString());
 //        // 回复数据到客户端

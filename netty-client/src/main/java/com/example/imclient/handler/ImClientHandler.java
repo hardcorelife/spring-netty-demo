@@ -1,4 +1,4 @@
-package com.example.imclient;
+package com.example.imclient.handler;
 
 
 import com.example.common.protocol.Packet;
@@ -32,10 +32,10 @@ public class ImClientHandler extends ChannelInboundHandlerAdapter {
         loginRequestPacket.setPassword("pwd");
 
         // 编码
-        ByteBuf buffer = PacketCodeC.INSTANCE.encode(ctx.alloc(), loginRequestPacket);
+//        ByteBuf buffer = PacketCodeC.INSTANCE.encode(ctx.alloc(), loginRequestPacket);
 
         // 往通道中发送数据
-        ctx.channel().writeAndFlush(buffer);
+//        ctx.channel().writeAndFlush(buffer);
 
 //        System.out.println(new Date() + ": 客户端写出数据");
 //

@@ -1,7 +1,6 @@
-package com.example.nettyclient;
+package com.example;
 
 import com.example.imclient.ImClient;
-import com.example.simpleclient.NettyClient;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
