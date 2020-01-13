@@ -19,7 +19,7 @@ import static com.example.common.protocol.command.Command.*;
  * @date 2020-01-10 15:25
  */
 public class PacketCodeC {
-    private static final int MAGIC_NUMBER = 0x7799CC66;
+    public static final int MAGIC_NUMBER = 0x7799CC66;
     public static final PacketCodeC INSTANCE = new PacketCodeC();
 
     private final Map<Byte, Class<? extends Packet>> packetTypeMap;
