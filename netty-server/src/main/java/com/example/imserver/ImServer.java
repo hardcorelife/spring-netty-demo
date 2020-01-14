@@ -16,7 +16,9 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class ImServer {
-    public void start(final int port) {
+    private static final int PORT = 8090;
+
+    public void start() {
         //new 主线程组
         NioEventLoopGroup bossGroup = new NioEventLoopGroup();
         //new 工作线程组
@@ -34,7 +36,7 @@ public class ImServer {
                 .childHandler(new ImServerInitializer());
 
 
-        bind(bootstrap, port);
+        bind(bootstrap, PORT);
     }
 
     private void bind(final ServerBootstrap bootstrap, final int port) {

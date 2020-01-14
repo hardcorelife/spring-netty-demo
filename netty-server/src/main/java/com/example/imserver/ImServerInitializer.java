@@ -3,10 +3,7 @@ package com.example.imserver;
 import com.example.common.codec.PacketDecoder;
 import com.example.common.codec.PacketEncoder;
 import com.example.common.codec.Spliter;
-import com.example.imserver.handler.AuthHandler;
-import com.example.imserver.handler.LifeCyCleTestHandler;
-import com.example.imserver.handler.LoginRequestHandler;
-import com.example.imserver.handler.MessageRequestHandler;
+import com.example.imserver.handler.*;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.nio.NioSocketChannel;
 
@@ -32,6 +29,8 @@ public class ImServerInitializer extends ChannelInitializer<NioSocketChannel> {
         // 新增加用户认证handler
         nioSocketChannel.pipeline().addLast(new AuthHandler());
         nioSocketChannel.pipeline().addLast(new MessageRequestHandler());
+        nioSocketChannel.pipeline().addLast(new CreateGroupRequestHandler());
+        nioSocketChannel.pipeline().addLast(new LogoutRequestHandler());
         nioSocketChannel.pipeline().addLast(new PacketEncoder());
     }
 }

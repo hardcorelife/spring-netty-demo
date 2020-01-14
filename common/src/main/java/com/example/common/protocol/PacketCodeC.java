@@ -1,13 +1,16 @@
 package com.example.common.protocol;
 
+import com.example.common.protocol.request.CreateGroupRequestPacket;
 import com.example.common.protocol.request.LoginRequestPacket;
+import com.example.common.protocol.request.LogoutRequestPacket;
 import com.example.common.protocol.request.MessageRequestPacket;
+import com.example.common.protocol.response.CreateGroupResponsePacket;
 import com.example.common.protocol.response.LoginResponsePacket;
+import com.example.common.protocol.response.LogoutResponsePacket;
 import com.example.common.protocol.response.MessageResponsePacket;
 import com.example.common.serialize.Serializer;
 import com.example.common.serialize.impl.JSONSerializer;
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufAllocator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +35,10 @@ public class PacketCodeC {
         packetTypeMap.put(LOGIN_RESPONSE, LoginResponsePacket.class);
         packetTypeMap.put(MESSAGE_REQUEST, MessageRequestPacket.class);
         packetTypeMap.put(MESSAGE_RESPONSE, MessageResponsePacket.class);
+        packetTypeMap.put(LOGOUT_REQUEST, LogoutRequestPacket.class);
+        packetTypeMap.put(LOGOUT_RESPONSE, LogoutResponsePacket.class);
+        packetTypeMap.put(CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
+        packetTypeMap.put(CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
 
         serializerMap = new HashMap<>();
         Serializer serializer = new JSONSerializer();

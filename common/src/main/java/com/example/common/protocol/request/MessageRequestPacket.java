@@ -13,11 +13,14 @@ import static com.example.common.protocol.command.Command.MESSAGE_REQUEST;
 @Data
 @NoArgsConstructor
 public class MessageRequestPacket extends Packet {
-    public MessageRequestPacket(String message) {
+
+    private String toUserId;
+    private String message;
+
+    public MessageRequestPacket(String toUserId, String message) {
+        this.toUserId = toUserId;
         this.message = message;
     }
-
-    private String message;
 
     @Override
     public Byte getCommand() {

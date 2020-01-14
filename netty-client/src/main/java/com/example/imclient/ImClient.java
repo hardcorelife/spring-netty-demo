@@ -2,8 +2,12 @@ package com.example.imclient;
 
 
 import com.example.common.protocol.PacketCodeC;
+import com.example.common.protocol.request.LoginRequestPacket;
 import com.example.common.protocol.request.MessageRequestPacket;
 import com.example.common.util.LoginUtil;
+import com.example.common.util.SessionUtil;
+import com.example.imclient.console.ConsoleCommandManager;
+import com.example.imclient.console.LoginConsoleCommand;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.*;
@@ -25,7 +29,9 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class ImClient {
 
-    private int MAX_RETRY = 5;
+    private static final int MAX_RETRY = 5;
+    private static final String HOST = "127.0.0.1";
+    private static final int PORT = 8090;
 
     public void start() {
         NioEventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -45,7 +51,7 @@ public class ImClient {
                 .handler(new ImClientInitializer());
 
         // 4.建立连接
-        connect(bootstrap, "127.0.0.1", 8090 , MAX_RETRY);
+        connect(bootstrap, HOST, PORT , MAX_RETRY);
     }
 
     /**
@@ -76,16 +82,53 @@ public class ImClient {
     }
 
     private void startConsoleThread(Channel channel) {
+        ConsoleCommandManager consoleCommandManager = new ConsoleCommandManager();
+        LoginConsoleCommand loginConsoleCommand = new LoginConsoleCommand();
+        Scanner sc = new Scanner(System.in);
+//        LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
+
         new Thread(() -> {
             while (!Thread.interrupted()) {
-//                if (LoginUtil.hasLogin(channel)) {
-                    System.out.println("输入消息发送至服务端: ");
-                    Scanner sc = new Scanner(System.in);
-                    String line = sc.nextLine();
-
-                    channel.writeAndFlush(new MessageRequestPacket(line));
-//                }
+                if (!SessionUtil.hasLogin(channel)) {
+                    loginConsoleCommand.exec(sc, channel);
+                } else {
+                    consoleCommandManager.exec(sc, channel);
+                }
             }
+//            while (!Thread.interrupted()) {
+//                if (!SessionUtil.hasLogin(channel)) {
+//                    System.out.println("输入消息发送至服务端: ");
+//                    Scanner sc = new Scanner(System.in);
+//                    String line = sc.nextLine();
+//
+//                    channel.writeAndFlush(new MessageRequestPacket(line));
+//                }
+//            }
+//            while (!Thread.interrupted()) {
+//                if (!SessionUtil.hasLogin(channel)) {
+//                    System.out.print("输入用户名登录: ");
+//                    String username = sc.nextLine();
+//                    loginRequestPacket.setUsername(username);
+//
+//                    // 密码使用默认的
+//                    loginRequestPacket.setPassword("pwd");
+//
+//                    // 发送登录数据包
+//                    channel.writeAndFlush(loginRequestPacket);
+//                    waitForLoginResponse();
+//                } else {
+//                    String toUserId = sc.next();
+//                    String message = sc.next();
+//                    channel.writeAndFlush(new MessageRequestPacket(toUserId, message));
+//                }
+//            }
         }).start();
+    }
+
+    private static void waitForLoginResponse() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException ignored) {
+        }
     }
 }

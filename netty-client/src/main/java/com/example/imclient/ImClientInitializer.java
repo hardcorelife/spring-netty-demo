@@ -3,7 +3,9 @@ package com.example.imclient;
 import com.example.common.codec.PacketDecoder;
 import com.example.common.codec.PacketEncoder;
 import com.example.common.codec.Spliter;
+import com.example.imclient.handler.CreateGroupRequestHandler;
 import com.example.imclient.handler.LoginResponseHandler;
+import com.example.imclient.handler.LogoutRequestHandler;
 import com.example.imclient.handler.MessageResponseHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
@@ -24,6 +26,8 @@ public class ImClientInitializer extends ChannelInitializer<SocketChannel> {
         socketChannel.pipeline().addLast(new PacketDecoder());
         socketChannel.pipeline().addLast(new LoginResponseHandler());
         socketChannel.pipeline().addLast(new MessageResponseHandler());
+        socketChannel.pipeline().addLast(new CreateGroupRequestHandler());
+        socketChannel.pipeline().addLast(new LogoutRequestHandler());
         socketChannel.pipeline().addLast(new PacketEncoder());
     }
 }
