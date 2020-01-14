@@ -2,6 +2,7 @@ package com.example.imserver.handler;
 
 import com.example.common.protocol.request.LoginRequestPacket;
 import com.example.common.protocol.response.LoginResponsePacket;
+import com.example.common.util.LoginUtil;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -21,6 +22,7 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
         loginResponsePacket.setVersion(loginRequestPacket.getVersion());
         if (valid(loginRequestPacket)) {
             loginResponsePacket.setSuccess(true);
+            LoginUtil.markAsLogin(channelHandlerContext.channel());
             System.out.println(new Date() + ": 登录成功!");
         } else {
             loginResponsePacket.setReason("账号密码校验失败");
@@ -33,6 +35,5 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
     }
     private boolean valid(LoginRequestPacket loginRequestPacket) {
         return true;
-
     }
 }

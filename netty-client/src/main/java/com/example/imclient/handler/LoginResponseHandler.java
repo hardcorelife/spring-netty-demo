@@ -25,7 +25,6 @@ public class LoginResponseHandler  extends SimpleChannelInboundHandler<LoginResp
 
         // 写数据
         ctx.channel().writeAndFlush(loginRequestPacket);
-
     }
 
     @Override
@@ -36,5 +35,10 @@ public class LoginResponseHandler  extends SimpleChannelInboundHandler<LoginResp
         } else {
             System.out.println(new Date() + ": 客户端登录失败，原因：" + loginResponsePacket.getReason());
         }
+    }
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) {
+        System.out.println("客户端连接被关闭!");
     }
 }

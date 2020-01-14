@@ -28,7 +28,7 @@ public class ImClient {
     private int MAX_RETRY = 5;
 
     public void start() {
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        NioEventLoopGroup workerGroup = new NioEventLoopGroup();
 
         Bootstrap bootstrap = new Bootstrap()
                 // 1.指定线程模型
@@ -78,13 +78,13 @@ public class ImClient {
     private void startConsoleThread(Channel channel) {
         new Thread(() -> {
             while (!Thread.interrupted()) {
-                if (LoginUtil.hasLogin(channel)) {
+//                if (LoginUtil.hasLogin(channel)) {
                     System.out.println("输入消息发送至服务端: ");
                     Scanner sc = new Scanner(System.in);
                     String line = sc.nextLine();
 
                     channel.writeAndFlush(new MessageRequestPacket(line));
-                }
+//                }
             }
         }).start();
     }

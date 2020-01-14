@@ -3,6 +3,8 @@ package com.example.imserver;
 import com.example.common.codec.PacketDecoder;
 import com.example.common.codec.PacketEncoder;
 import com.example.common.codec.Spliter;
+import com.example.imserver.handler.AuthHandler;
+import com.example.imserver.handler.LifeCyCleTestHandler;
 import com.example.imserver.handler.LoginRequestHandler;
 import com.example.imserver.handler.MessageRequestHandler;
 import io.netty.channel.ChannelInitializer;
@@ -23,9 +25,12 @@ public class ImServerInitializer extends ChannelInitializer<NioSocketChannel> {
 //        nioSocketChannel.pipeline().addLast("decoder", new StringDecoder(CharsetUtil.UTF_8));
 //        nioSocketChannel.pipeline().addLast("encoder", new StringEncoder(CharsetUtil.UTF_8));
 //        nioSocketChannel.pipeline().addLast(new ImServerHandler());
+//        nioSocketChannel.pipeline().addLast(new LifeCyCleTestHandler());
         nioSocketChannel.pipeline().addLast(new Spliter());
         nioSocketChannel.pipeline().addLast(new PacketDecoder());
         nioSocketChannel.pipeline().addLast(new LoginRequestHandler());
+        // 新增加用户认证handler
+        nioSocketChannel.pipeline().addLast(new AuthHandler());
         nioSocketChannel.pipeline().addLast(new MessageRequestHandler());
         nioSocketChannel.pipeline().addLast(new PacketEncoder());
     }
