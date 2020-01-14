@@ -25,7 +25,7 @@ public class ImServerInitializer extends ChannelInitializer<NioSocketChannel> {
 //        nioSocketChannel.pipeline().addLast("decoder", new StringDecoder(CharsetUtil.UTF_8));
 //        nioSocketChannel.pipeline().addLast("encoder", new StringEncoder(CharsetUtil.UTF_8));
 //        nioSocketChannel.pipeline().addLast(new ImServerHandler());
-//        nioSocketChannel.pipeline().addLast(new LifeCyCleTestHandler());
+        nioSocketChannel.pipeline().addLast(new LifeCyCleTestHandler());
         nioSocketChannel.pipeline().addLast(new Spliter());
         nioSocketChannel.pipeline().addLast(new PacketDecoder());
         nioSocketChannel.pipeline().addLast(new LoginRequestHandler());
