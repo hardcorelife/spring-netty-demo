@@ -1,6 +1,7 @@
 package com.example.imserver.handler;
 
 import com.example.common.util.LoginUtil;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
@@ -8,7 +9,15 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
  * @author qiweigang
  * @date 2020-01-14 11:06
  */
+@ChannelHandler.Sharable
 public class AuthHandler extends ChannelInboundHandlerAdapter {
+    public static final AuthHandler INSTANCE = new AuthHandler();
+
+    private AuthHandler() {
+
+    }
+
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (!LoginUtil.hasLogin(ctx.channel())) {

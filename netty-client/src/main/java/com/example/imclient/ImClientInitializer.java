@@ -33,6 +33,8 @@ public class ImClientInitializer extends ChannelInitializer<SocketChannel> {
         socketChannel.pipeline().addLast(new QuitGroupResponseHandler());
         // 获取群成员响应处理器
         socketChannel.pipeline().addLast(new ListGroupMembersResponseHandler());
+        // 群消息响应
+        socketChannel.pipeline().addLast(new GroupMessageResponseHandler());
         // 登出响应处理器
         socketChannel.pipeline().addLast(new LogoutResquestHandler());
         socketChannel.pipeline().addLast(new PacketEncoder());

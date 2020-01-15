@@ -3,6 +3,7 @@ package com.example.imserver.handler;
 import com.example.common.protocol.request.QuitGroupRequestPacket;
 import com.example.common.protocol.response.QuitGroupResponsePacket;
 import com.example.common.util.SessionUtil;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -11,7 +12,13 @@ import io.netty.channel.group.ChannelGroup;
  * @author qiweigang
  * @date 2020-01-15 11:34
  */
+@ChannelHandler.Sharable
 public class QuitGroupRequestHandler  extends SimpleChannelInboundHandler<QuitGroupRequestPacket> {
+    public static final QuitGroupRequestHandler INSTANCE = new QuitGroupRequestHandler();
+
+    private QuitGroupRequestHandler() {
+    }
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, QuitGroupRequestPacket requestPacket) {
         // 1. 获取群对应的 channelGroup，然后将当前用户的 channel 移除
@@ -25,6 +32,5 @@ public class QuitGroupRequestHandler  extends SimpleChannelInboundHandler<QuitGr
         responsePacket.setGroupId(requestPacket.getGroupId());
         responsePacket.setSuccess(true);
         ctx.channel().writeAndFlush(responsePacket);
-
     }
 }

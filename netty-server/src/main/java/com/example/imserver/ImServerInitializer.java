@@ -1,5 +1,6 @@
 package com.example.imserver;
 
+import com.example.common.codec.PacketCodecHandler;
 import com.example.common.codec.PacketDecoder;
 import com.example.common.codec.PacketEncoder;
 import com.example.common.codec.Spliter;
@@ -22,24 +23,30 @@ public class ImServerInitializer extends ChannelInitializer<NioSocketChannel> {
 //        nioSocketChannel.pipeline().addLast("decoder", new StringDecoder(CharsetUtil.UTF_8));
 //        nioSocketChannel.pipeline().addLast("encoder", new StringEncoder(CharsetUtil.UTF_8));
 //        nioSocketChannel.pipeline().addLast(new ImServerHandler());
-        nioSocketChannel.pipeline().addLast(new LifeCyCleTestHandler());
+//        nioSocketChannel.pipeline().addLast(new LifeCyCleTestHandler());
+//        nioSocketChannel.pipeline().addLast(new Spliter());
+//        nioSocketChannel.pipeline().addLast(new PacketDecoder());
+//        // 登录请求处理器
+//        nioSocketChannel.pipeline().addLast(new LoginRequestHandler());
+//        nioSocketChannel.pipeline().addLast(new AuthHandler());
+//        // 单聊消息请求处理器
+//        nioSocketChannel.pipeline().addLast(new MessageRequestHandler());
+//        // 创建群请求处理器
+//        nioSocketChannel.pipeline().addLast(new CreateGroupRequestHandler());
+//        // 加群请求处理器
+//        nioSocketChannel.pipeline().addLast(new JoinGroupRequestHandler());
+//        // 退群请求处理器
+//        nioSocketChannel.pipeline().addLast(new QuitGroupRequestHandler());
+//        // 获取群成员请求处理器
+//        nioSocketChannel.pipeline().addLast(new ListGroupMembersRequestHandler());
+//        // 登出请求处理器
+//        nioSocketChannel.pipeline().addLast(new LogoutRequestHandler());
+//        nioSocketChannel.pipeline().addLast(new PacketEncoder());
+
         nioSocketChannel.pipeline().addLast(new Spliter());
-        nioSocketChannel.pipeline().addLast(new PacketDecoder());
-        // 登录请求处理器
-        nioSocketChannel.pipeline().addLast(new LoginRequestHandler());
-        nioSocketChannel.pipeline().addLast(new AuthHandler());
-        // 单聊消息请求处理器
-        nioSocketChannel.pipeline().addLast(new MessageRequestHandler());
-        // 创建群请求处理器
-        nioSocketChannel.pipeline().addLast(new CreateGroupRequestHandler());
-        // 加群请求处理器
-        nioSocketChannel.pipeline().addLast(new JoinGroupRequestHandler());
-        // 退群请求处理器
-        nioSocketChannel.pipeline().addLast(new QuitGroupRequestHandler());
-        // 获取群成员请求处理器
-        nioSocketChannel.pipeline().addLast(new ListGroupMembersRequestHandler());
-        // 登出请求处理器
-        nioSocketChannel.pipeline().addLast(new LogoutRequestHandler());
-        nioSocketChannel.pipeline().addLast(new PacketEncoder());
+        nioSocketChannel.pipeline().addLast(PacketCodecHandler.INSTANCE);
+        nioSocketChannel.pipeline().addLast(LoginRequestHandler.INSTANCE);
+        nioSocketChannel.pipeline().addLast(AuthHandler.INSTANCE);
+        nioSocketChannel.pipeline().addLast(IMHandler.INSTANCE);
     }
 }

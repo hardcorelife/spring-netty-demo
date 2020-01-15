@@ -5,6 +5,7 @@ import com.example.common.protocol.response.LoginResponsePacket;
 import com.example.common.session.Session;
 import com.example.common.util.LoginUtil;
 import com.example.common.util.SessionUtil;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -17,7 +18,12 @@ import java.util.UUID;
  * @author qiweigang
  * @date 2020-01-13 16:08
  */
+@ChannelHandler.Sharable
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
+    public static final LoginRequestHandler INSTANCE = new LoginRequestHandler();
+
+    protected LoginRequestHandler() {
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, LoginRequestPacket loginRequestPacket) throws Exception {
