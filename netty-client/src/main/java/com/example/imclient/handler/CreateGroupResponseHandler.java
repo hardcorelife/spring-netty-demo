@@ -8,7 +8,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @author qiweigang
  * @date 2020-01-14 17:24
  */
-public class CreateGroupRequestHandler extends SimpleChannelInboundHandler<CreateGroupResponsePacket> {
+public class CreateGroupResponseHandler extends SimpleChannelInboundHandler<CreateGroupResponsePacket> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, CreateGroupResponsePacket createGroupResponsePacket) {

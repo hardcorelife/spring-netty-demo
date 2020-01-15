@@ -9,7 +9,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * @author qiweigang
  * @date 2020-01-14 17:24
  */
-public class LogoutRequestHandler extends SimpleChannelInboundHandler<LogoutResponsePacket> {
+public class LogoutResquestHandler extends SimpleChannelInboundHandler<LogoutResponsePacket> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, LogoutResponsePacket logoutResponsePacket) {

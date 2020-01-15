@@ -25,11 +25,20 @@ public class ImServerInitializer extends ChannelInitializer<NioSocketChannel> {
         nioSocketChannel.pipeline().addLast(new LifeCyCleTestHandler());
         nioSocketChannel.pipeline().addLast(new Spliter());
         nioSocketChannel.pipeline().addLast(new PacketDecoder());
+        // 登录请求处理器
         nioSocketChannel.pipeline().addLast(new LoginRequestHandler());
-        // 新增加用户认证handler
         nioSocketChannel.pipeline().addLast(new AuthHandler());
+        // 单聊消息请求处理器
         nioSocketChannel.pipeline().addLast(new MessageRequestHandler());
+        // 创建群请求处理器
         nioSocketChannel.pipeline().addLast(new CreateGroupRequestHandler());
+        // 加群请求处理器
+        nioSocketChannel.pipeline().addLast(new JoinGroupRequestHandler());
+        // 退群请求处理器
+        nioSocketChannel.pipeline().addLast(new QuitGroupRequestHandler());
+        // 获取群成员请求处理器
+        nioSocketChannel.pipeline().addLast(new ListGroupMembersRequestHandler());
+        // 登出请求处理器
         nioSocketChannel.pipeline().addLast(new LogoutRequestHandler());
         nioSocketChannel.pipeline().addLast(new PacketEncoder());
     }
