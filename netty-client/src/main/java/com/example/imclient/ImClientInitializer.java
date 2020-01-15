@@ -3,6 +3,7 @@ package com.example.imclient;
 import com.example.common.codec.PacketDecoder;
 import com.example.common.codec.PacketEncoder;
 import com.example.common.codec.Spliter;
+import com.example.common.handler.IMIdleStateHandler;
 import com.example.imclient.handler.*;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
@@ -19,6 +20,10 @@ public class ImClientInitializer extends ChannelInitializer<SocketChannel> {
 //        socketChannel.pipeline().addLast("decoder", new StringDecoder(CharsetUtil.UTF_8));
 //        socketChannel.pipeline().addLast("encoder", new StringEncoder(CharsetUtil.UTF_8));
 //        socketChannel.pipeline().addLast(new ImClientHandler());
+
+        // 空闲检测
+        socketChannel.pipeline().addLast(new IMIdleStateHandler());
+
         socketChannel.pipeline().addLast(new Spliter());
         socketChannel.pipeline().addLast(new PacketDecoder());
         // 登录响应处理器
@@ -38,5 +43,7 @@ public class ImClientInitializer extends ChannelInitializer<SocketChannel> {
         // 登出响应处理器
         socketChannel.pipeline().addLast(new LogoutResquestHandler());
         socketChannel.pipeline().addLast(new PacketEncoder());
+        // 心跳定时器
+        socketChannel.pipeline().addLast(new HeartBeatTimerHandler());
     }
 }

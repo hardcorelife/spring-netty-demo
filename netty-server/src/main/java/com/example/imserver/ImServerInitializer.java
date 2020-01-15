@@ -4,6 +4,7 @@ import com.example.common.codec.PacketCodecHandler;
 import com.example.common.codec.PacketDecoder;
 import com.example.common.codec.PacketEncoder;
 import com.example.common.codec.Spliter;
+import com.example.common.handler.IMIdleStateHandler;
 import com.example.imserver.handler.*;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -43,6 +44,8 @@ public class ImServerInitializer extends ChannelInitializer<NioSocketChannel> {
 //        nioSocketChannel.pipeline().addLast(new LogoutRequestHandler());
 //        nioSocketChannel.pipeline().addLast(new PacketEncoder());
 
+        // 空闲检测
+        nioSocketChannel.pipeline().addLast(new IMIdleStateHandler());
         nioSocketChannel.pipeline().addLast(new Spliter());
         nioSocketChannel.pipeline().addLast(PacketCodecHandler.INSTANCE);
         nioSocketChannel.pipeline().addLast(LoginRequestHandler.INSTANCE);
